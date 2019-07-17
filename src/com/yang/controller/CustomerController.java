@@ -1,5 +1,6 @@
 package com.yang.controller;
 
+import com.mysql.cj.jdbc.MysqlDataSource;
 import com.yang.pojo.BaseDict;
 import com.yang.pojo.Customer;
 import com.yang.service.BaseDictService;
@@ -10,7 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @Controller
@@ -24,7 +29,15 @@ public class CustomerController {
 
 
     @RequestMapping("/customerList.do")
-public String getCustomerList(QueryVo vo , Model model){
+public String getCustomerList(QueryVo vo , Model model , HttpServletRequest request) throws UnsupportedEncodingException {
+
+        request.setCharacterEncoding("utf-8");
+
+        if(null != vo && vo.getCustName() != null){
+            vo.setCustName(new String(vo.getCustName().getBytes("ISO-8859-1"),"UTF-8"));
+            System.out.println(vo.getCustName());
+        }
+
         List<BaseDict> industryType = baseDicService.getBaseDictByTypeCode("001");
         List<BaseDict> fromType = baseDicService.getBaseDictByTypeCode("002");
         List<BaseDict> levelType = baseDicService.getBaseDictByTypeCode("006");
@@ -43,4 +56,24 @@ public String getCustomerList(QueryVo vo , Model model){
         return "customer";
         }
 
+        @RequestMapping("/editCustomer.do")
+        @ResponseBody
+        public Customer getCustomerForm(Integer id, HttpServletRequest request) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("UTF-8");
+           Customer customer = customerService.editCustomerById(id);
+
+            return  customer;
+        }
+        @RequestMapping("/update.do")
+        @ResponseBody
+    public void updateCustomerForm(Customer customer){
+            customerService.updateInf(customer);
+        }
+
+
+        @RequestMapping("/deleteCustomer.do")
+        @ResponseBody
+        public void deleteCustomer(Integer id){
+            customerService.deleteInf(id);
+        }
 }

@@ -7,11 +7,14 @@ import com.yang.vo.QueryVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CustomerServiceImpl implements CustomerService{
 
 @Autowired
 private CustomerDao customerDao;
+
     @Override
     public Page<Customer> getPageByQueryVo(QueryVo vo) {
         Page<Customer> page = new Page<>();
@@ -27,4 +30,21 @@ private CustomerDao customerDao;
     }
         return page;
     }
+
+    @Override
+    public Customer editCustomerById(Integer id) {
+        return customerDao.editCustomerById(id);
+    }
+
+    @Override
+    public Customer updateInf(Customer customer) {
+        return customerDao.updateInf(customer);
+    }
+
+    @Override
+    public Void deleteInf(Integer id) {
+        return customerDao.deletInf(id);
+    }
+
+
 }

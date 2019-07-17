@@ -6,46 +6,96 @@
 
     <!--  int getCustmerTotal(QueryVo vo);-->
     <select id="getCustmerTotal" parameterType="QueryVo" resultType="Integer">
-        select count(*) from customer
+        SELECT count(*) FROM customer
         <where>
             <if test="custName != null and custName != ''">
-                and cust_name like "%"#{custName}"%"
+                AND cust_name LIKE "%"#{custName}"%"
             </if>
             <if test="custSource != null and custSource != ''">
-                and cust_source = #{custSource}
+                AND cust_source = #{custSource}
             </if>
 
             <if test="custIndustry != null and custIndustry != ''">
-                and cust_industry = #{custIndustry}
+                AND cust_industry = #{custIndustry}
             </if>
 
             <if test="custLevel != null and custLevel != ''">
-                and cust_level = #{custLevel}
+                AND cust_level = #{custLevel}
             </if>
         </where>
     </select>
 
 
-    <!--      List<Customer> getCustomerList(QueryVo vo);-->
+    <!-- List<Customer> getCustomerList(QueryVo vo);-->
     <select id="getCustomerList" parameterType="QueryVo" resultType="Customer">
-        select * from customer
+        SELECT * FROM customer
         <where>
             <if test="custName != null and custName != ''">
-                and cust_name like "%"#{custName}"%"
+                AND cust_name LIKE "%"#{custName}"%"
             </if>
             <if test="custSource != null and custSource != ''">
-                and cust_source = #{custSource}
+                AND cust_source = #{custSource}
             </if>
 
             <if test="custIndustry != null and custIndustry != ''">
-                and cust_industry = #{custIndustry}
+                AND cust_industry = #{custIndustry}
             </if>
 
             <if test="custLevel != null and custLevel != ''">
-                and cust_level = #{custLevel}
+                AND cust_level = #{custLevel}
             </if>
         </where>
         limit #{startIndex} , #{maxCount}
     </select>
+
+    <!--Customer editCustomerById(Customer id);-->
+    <select id="editCustomerById" parameterType="Integer" resultType="Customer" >
+
+        SELECT * FROM customer WHERE cust_id = #{id}
+
+    </select>
+
+    <!--void updateInf(Customer customer);-->
+    <select id="updateInf" parameterType="Customer" resultType="Customer">
+    UPDATE customer
+             <set>
+                 <if test="cust_name != null and cust_name != ''">
+                     cust_name = #{cust_name},
+                 </if>
+                 <if test="cust_source != null and cust_source != ''">
+                     cust_source = #{cust_source},
+                 </if>
+                 <if test="cust_industry != null and cust_industry != ''">
+                     cust_industry = #{cust_industry},
+                 </if>
+                 <if test="cust_level != null and cust_level != ''">
+                     cust_level = #{cust_level},
+             </if>
+                 <if test="cust_linkman != null and cust_linkman != ''">
+                     cust_linkman = #{cust_linkman},
+                 </if>
+                 <if test="cust_phone != null and cust_phone != ''">
+                     cust_phone = #{cust_phone},
+                 </if>
+                 <if test="cust_mobile != null and cust_mobile != ''">
+                     cust_mobile = #{cust_mobile},
+             </if>
+                 <if test="cust_zipcode != null and cust_zipcode != ''">
+                     cust_zipcode = #{cust_zipcode},
+                 </if>
+                 <if test="cust_address != null and cust_address != ''">
+                     cust_address = #{cust_address},
+                 </if>
+             </set>
+            <where>
+                cust_id = #{cust_id}
+            </where>
+
+    </select>
+
+    <!--Void deletInf(Integer id);-->
+    <delete id="deletInf">
+        DELETE FROM customer WHERE cust_id = #{cust_id}
+        </delete>
 
 </mapper>

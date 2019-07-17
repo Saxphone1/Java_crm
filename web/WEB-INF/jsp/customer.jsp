@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="y" uri="http://yang/utils/"%>
+<%@ taglib prefix="yy" uri="http://yang/utils/"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
@@ -283,7 +283,7 @@
 							</tbody>
 						</table>
 						<div class="col-md-12 text-right">
-							<wc:page url="${pageContext.request.contextPath }/customer/list.action" />
+							<yy:page url="${pageContext.request.contextPath }/customerList.do" />
 						</div>
 						<!-- /.panel-body -->
 					</div>
@@ -409,7 +409,7 @@
 		function editCustomer(id) {
 			$.ajax({
 				type:"get",
-				url:"<%=basePath%>customer/edit.action",
+				url:"${basePath}/editCustomer.do",
 				data:{"id":id},
 				success:function(data) {
 					$("#edit_cust_id").val(data.cust_id);
@@ -427,7 +427,7 @@
 			});
 		}
 		function updateCustomer() {
-			$.post("<%=basePath%>customer/update.action",$("#edit_customer_form").serialize(),function(data){
+			$.post("${basePath}/update.do",$("#edit_customer_form").serialize(),function(data){
 				alert("客户信息更新成功！");
 				window.location.reload();
 			});
@@ -435,7 +435,7 @@
 		
 		function deleteCustomer(id) {
 			if(confirm('确实要删除该客户吗?')) {
-				$.post("<%=basePath%>customer/delete.action",{"id":id},function(data){
+				$.post("${basePath}/deleteCustomer.do",{"id":id},function(data){
 					alert("客户删除更新成功！");
 					window.location.reload();
 				});

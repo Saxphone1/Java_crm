@@ -12,4 +12,9 @@ public interface CustomerDao {
     List<Customer> getCustomerList(QueryVo vo);
 
 
+    Customer editCustomerById(Integer id);
+
+    Customer updateInf(Customer customer);
+
+    Void deletInf(Integer id);
 }
